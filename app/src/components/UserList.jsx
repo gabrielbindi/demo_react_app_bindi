@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 
 class UserList extends React.Component {
   constructor(props) {
@@ -10,6 +11,7 @@ class UserList extends React.Component {
     };
   }
 
+/*
   componentDidMount() {
     fetch('http://localhost:3000/api/users/')
       .then(response => {
@@ -25,6 +27,22 @@ class UserList extends React.Component {
         this.setState({ error: error.message, isLoading: false });
       });
   }
+*/
+
+  componentDidMount() {
+   this.fetchData();
+  }
+
+  fetchData = async () => {
+    const response = await axios.get('http://localhost:3000/api/users/');
+    if (response.status == 200) {
+    .then(data => {
+      this.setState({ users: data, isLoading: false});
+    })
+    else {
+      this.setState({ error: response.status, isLoading: false})
+    }
+  };
 
   render() {
     const { users, isLoading, error } = this.state;
